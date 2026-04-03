@@ -1,0 +1,11 @@
+{
+  "name": "duck-dive-sales-report",
+  "version": "1.0.0",
+  "description": "Duck Dive — Automated Sales KPI Report from Google Sheets",
+  "main": "daily-kpi-report.js",
+  "scripts": {
+    "report": "node daily-kpi-report.js",
+    "report:stdout": "node daily-kpi-report.js --stdout"
+  },
+  "private": true
+}

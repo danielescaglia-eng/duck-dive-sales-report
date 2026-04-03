@@ -1,0 +1,24 @@
+{
+  "generated": "2026-04-03T09:38:23.085Z",
+  "subject": "[Duck Dive] Sales Report S14 — 3/4/2026",
+  "reportFile": "/Users/danielescaglia/Desktop/Claude Code/.claude/worktrees/pensive-bouman/docs/reports/daily-kpi-2026-04-03.html",
+  "latestFile": "/Users/danielescaglia/Desktop/Claude Code/.claude/worktrees/pensive-bouman/docs/reports/latest.html",
+  "recipients": [],
+  "focusMonth": "mar-26",
+  "agents": [
+    {
+      "name": "Beppe",
+      "vN": 34,
+      "vE": 106,
+      "fN": 783.69,
+      "fR": 13469.22
+    },
+    {
+      "name": "Dimitri Gennuso",
+      "vN": 65,
+      "vE": 89,
+      "fN": 428.89,
+      "fR": 5471.65
+    }
+  ]
+}

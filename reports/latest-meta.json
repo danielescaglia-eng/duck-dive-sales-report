@@ -1,24 +1,24 @@
 {
-  "generated": "2026-04-03T09:38:23.085Z",
-  "subject": "[Duck Dive] Sales Report S14 — 3/4/2026",
-  "reportFile": "/Users/danielescaglia/Desktop/Claude Code/.claude/worktrees/pensive-bouman/docs/reports/daily-kpi-2026-04-03.html",
-  "latestFile": "/Users/danielescaglia/Desktop/Claude Code/.claude/worktrees/pensive-bouman/docs/reports/latest.html",
+  "generated": "2026-04-10T07:26:37.137Z",
+  "subject": "[Duck Dive] Sales Report S15 — 10/04/2026",
+  "reportFile": "/home/node/.openclaw/workspace/projects/duck-dive/sales-reports/reports/daily-kpi-2026-04-10.html",
+  "latestFile": "/home/node/.openclaw/workspace/projects/duck-dive/sales-reports/reports/latest.html",
   "recipients": [],
-  "focusMonth": "mar-26",
+  "focusMonth": "apr-26",
   "agents": [
     {
       "name": "Beppe",
-      "vN": 34,
-      "vE": 106,
-      "fN": 783.69,
-      "fR": 13469.22
+      "vN": 7,
+      "vE": 36,
+      "fN": 86.24,
+      "fR": 3157.57
     },
     {
       "name": "Dimitri Gennuso",
-      "vN": 65,
-      "vE": 89,
-      "fN": 428.89,
-      "fR": 5471.65
+      "vN": 27,
+      "vE": 14,
+      "fN": 163.54,
+      "fR": 1036.36
     }
   ]
 }

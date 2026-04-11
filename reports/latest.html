@@ -1,0 +1,401 @@
+<!DOCTYPE html><html lang="it"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#f1f3f9;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#1e293b;font-size:13px}
+.wrap{max-width:820px;margin:0 auto;padding:12px}
+.hdr{background:linear-gradient(135deg,#1e1b4b,#312e81);border-radius:14px;padding:22px;text-align:center;margin-bottom:10px;color:#fff}
+.hdr h1{font-size:17px;font-weight:800;letter-spacing:1px;margin-bottom:4px}
+.hdr .sub{font-size:11px;color:#a5b4fc}
+.card{background:#fff;border-radius:10px;margin-bottom:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.card-h{padding:10px 14px;font-size:13px;font-weight:700;display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none}
+.card-h:hover{background:#f8fafc}
+.card-b{padding:10px 14px}
+.tabs{display:flex;gap:4px;margin-bottom:10px;flex-wrap:wrap}
+.tab{padding:6px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid #e2e8f0;background:#fff;transition:.15s}
+.tab.active{background:#4f46e5;color:#fff;border-color:#4f46e5}
+.tab:hover:not(.active){background:#f1f5f9}
+table{width:100%;border-collapse:collapse}
+th{padding:5px 6px;font-size:10px;color:#64748b;text-transform:uppercase;background:#f8fafc;text-align:center;letter-spacing:.3px}
+th:first-child{text-align:left}
+td{padding:4px 6px;text-align:center;border-bottom:1px solid #f0f0f0;font-size:12px}
+td:first-child{text-align:left;font-weight:600}
+.g{background:#dcfce7;color:#166534}.r{background:#fee2e2;color:#991b1b}.y{background:#fef9c3;color:#854d0e}
+.pill{display:inline-block;padding:1px 6px;border-radius:4px;font-weight:700;font-size:11px}
+.ov-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:10px}
+.ov-card{background:#fff;border-radius:10px;padding:14px;box-shadow:0 1px 3px rgba(0,0,0,.06);text-align:center}
+.ov-val{font-size:24px;font-weight:800;color:#1e293b}
+.ov-label{font-size:11px;color:#64748b;margin-top:2px}
+.ov-trend{font-size:12px;font-weight:600;margin-top:4px}
+.bar-wrap{background:#e5e7eb;border-radius:4px;height:6px;margin-top:4px}
+.bar{border-radius:4px;height:6px;transition:width .3s}
+.perf-row{display:flex;gap:8px;margin-bottom:8px;align-items:center}
+.perf-name{width:80px;font-weight:700;font-size:12px}
+.perf-bars{flex:1}
+.perf-val{width:70px;text-align:right;font-weight:700;font-size:12px}
+.collapse{display:none}.collapse.open{display:block}
+.toggle{font-size:11px;color:#6366f1;cursor:pointer;font-weight:600}
+.toggle:hover{text-decoration:underline}
+.footer{text-align:center;padding:10px;font-size:10px;color:#94a3b8}
+</style></head><body>
+<div class="wrap">
+<div class="hdr"><h1>DUCK DIVE — Sales Report</h1><div class="sub">Settimana 15 · 6 apr – 10 apr 2026 · sabato 11 aprile 2026</div></div>
+
+<!-- Month tabs -->
+<div class="tabs" id="monthTabs">
+<div class="tab" data-m="dic-25">Dic 25</div><div class="tab" data-m="gen-26">Gen 26</div><div class="tab" data-m="feb-26">Feb 26</div><div class="tab" data-m="mar-26">Mar 26</div><div class="tab active" data-m="apr-26">Apr 26</div>
+</div>
+
+<!-- Overview -->
+<div id="overview"></div>
+
+<!-- KPI Grid -->
+<div id="kpiGrid"></div>
+
+<!-- Weekly Detail (collapsible) -->
+<div id="weeklyDetail"></div>
+
+<!-- Performance Sales (all months) -->
+<div id="perfSection"></div>
+
+<!-- Grafici -->
+<div class="card"><div class="card-h" style="border-left:3px solid #7c3aed;">Andamento Fatturato</div>
+<div class="card-b"><canvas id="chartRevenue" height="220"></canvas></div></div>
+<div class="card"><div class="card-h" style="border-left:3px solid #0891b2;">Andamento Visite</div>
+<div class="card-b"><canvas id="chartVisite" height="220"></canvas></div></div>
+<div class="card"><div class="card-h" style="border-left:3px solid #059669;">Andamento Conversioni</div>
+<div class="card-b"><canvas id="chartConversioni" height="220"></canvas></div></div>
+
+<div class="footer">Generato 15:48 · Fonte: Visite clienti + Venduto totale</div>
+</div>
+
+<script>
+const D={"dic-25":{"Beppe":{"vN":26,"vE":87,"fN":315.38,"fR":8960.58,"convN":2,"convR":34,"ordN":3,"ordR":42,"weeks":{"1/12/25":{"vN":7,"vE":20,"fN":293.88,"fR":1435.54,"cN":2,"cR":11,"ord":13},"2/12/25":{"vN":14,"vE":32,"fN":21.5,"fR":5694.42,"cN":1,"cR":18,"ord":19},"3/12/25":{"vN":4,"vE":21,"fN":0,"fR":1293.02,"cN":0,"cR":8,"ord":8},"4/12/25":{"vN":1,"vE":12,"fN":0,"fR":224.8,"cN":0,"cR":2,"ord":2},"5/12/25":{"vN":0,"vE":2,"fN":0,"fR":0,"cN":0,"cR":0,"ord":0},"-47/12/25":{"vN":0,"vE":0,"fN":0,"fR":312.8,"cN":0,"cR":2,"ord":2}}},"Dimitri Gennuso":{"vN":60,"vE":49,"fN":297.8,"fR":3306.68,"convN":4,"convR":20,"ordN":4,"ordR":21,"weeks":{"1/12/25":{"vN":26,"vE":13,"fN":78.7,"fR":903.06,"cN":2,"cR":6,"ord":8},"2/12/25":{"vN":17,"vE":13,"fN":219.1,"fR":424.39,"cN":2,"cR":5,"ord":7},"3/12/25":{"vN":15,"vE":16,"fN":0,"fR":1484.83,"cN":0,"cR":7,"ord":7},"4/12/25":{"vN":2,"vE":7,"fN":0,"fR":494.4,"cN":0,"cR":3,"ord":3}}}},"gen-26":{"Beppe":{"vN":34,"vE":99,"fN":625.2,"fR":9410.25,"convN":2,"convR":37,"ordN":4,"ordR":51,"weeks":{"2/1/26":{"vN":1,"vE":0,"fN":114.7,"fR":3347.63,"cN":1,"cR":14,"ord":16},"3/1/26":{"vN":10,"vE":38,"fN":0,"fR":1793.91,"cN":0,"cR":10,"ord":10},"4/1/26":{"vN":11,"vE":40,"fN":287.5,"fR":1893.32,"cN":1,"cR":11,"ord":15},"5/1/26":{"vN":12,"vE":21,"fN":223,"fR":1301.7,"cN":2,"cR":7,"ord":9},"1/1/26":{"vN":0,"vE":0,"fN":0,"fR":1073.69,"cN":0,"cR":5,"ord":5}}},"Dimitri Gennuso":{"vN":60,"vE":92,"fN":911.9,"fR":4445.71,"convN":3,"convR":26,"ordN":4,"ordR":32,"weeks":{"2/1/26":{"vN":6,"vE":20,"fN":0,"fR":862.87,"cN":0,"cR":8,"ord":8},"3/1/26":{"vN":24,"vE":20,"fN":165.6,"fR":1112.72,"cN":1,"cR":7,"ord":8},"4/1/26":{"vN":14,"vE":29,"fN":0,"fR":1082.7,"cN":0,"cR":7,"ord":7},"5/1/26":{"vN":16,"vE":23,"fN":746.3,"fR":1387.42,"cN":3,"cR":10,"ord":13}}}},"feb-26":{"Beppe":{"vN":54,"vE":98,"fN":935.6,"fR":8931.32,"convN":3,"convR":39,"ordN":5,"ordR":56,"weeks":{"1/2/26":{"vN":17,"vE":22,"fN":0,"fR":0,"cN":0,"cR":0,"ord":0},"2/2/26":{"vN":26,"vE":29,"fN":328.56,"fR":3812.38,"cN":2,"cR":17,"ord":20},"3/2/26":{"vN":8,"vE":20,"fN":470.24,"fR":1772.83,"cN":2,"cR":12,"ord":15},"4/2/26":{"vN":3,"vE":27,"fN":136.8,"fR":981,"cN":1,"cR":9,"ord":10},"5/2/26":{"vN":0,"vE":0,"fN":0,"fR":2365.11,"cN":0,"cR":15,"ord":16}}},"Dimitri Gennuso":{"vN":98,"vE":94,"fN":409.13,"fR":4915.97,"convN":3,"convR":25,"ordN":4,"ordR":30,"weeks":{"1/2/26":{"vN":25,"vE":24,"fN":0,"fR":0,"cN":0,"cR":0,"ord":0},"2/2/26":{"vN":27,"vE":21,"fN":0,"fR":849.09,"cN":0,"cR":7,"ord":7},"3/2/26":{"vN":30,"vE":20,"fN":0,"fR":938.84,"cN":0,"cR":6,"ord":6},"4/2/26":{"vN":16,"vE":29,"fN":409.13,"fR":1027.08,"cN":3,"cR":6,"ord":10},"5/2/26":{"vN":0,"vE":0,"fN":0,"fR":2100.96,"cN":0,"cR":10,"ord":11}}}},"mar-26":{"Beppe":{"vN":34,"vE":106,"fN":783.69,"fR":13469.22,"convN":5,"convR":47,"ordN":6,"ordR":72,"weeks":{"1/3/26":{"vN":12,"vE":30,"fN":0,"fR":0,"cN":0,"cR":0,"ord":0},"2/3/26":{"vN":7,"vE":18,"fN":107.86,"fR":2584.01,"cN":1,"cR":16,"ord":17},"3/3/26":{"vN":1,"vE":22,"fN":490.63,"fR":2340.85,"cN":2,"cR":15,"ord":17},"4/3/26":{"vN":13,"vE":30,"fN":0,"fR":4049.12,"cN":0,"cR":10,"ord":10},"5/3/26":{"vN":1,"vE":6,"fN":185.2,"fR":2205.4,"cN":3,"cR":17,"ord":21},"6/3/26":{"vN":0,"vE":0,"fN":0,"fR":2289.84,"cN":0,"cR":12,"ord":13}}},"Dimitri Gennuso":{"vN":65,"vE":89,"fN":428.89,"fR":5471.65,"convN":3,"convR":24,"ordN":3,"ordR":32,"weeks":{"1/3/26":{"vN":5,"vE":13,"fN":0,"fR":0,"cN":0,"cR":0,"ord":0},"2/3/26":{"vN":14,"vE":26,"fN":0,"fR":1553.16,"cN":0,"cR":9,"ord":9},"3/3/26":{"vN":9,"vE":19,"fN":165.6,"fR":1277.26,"cN":1,"cR":9,"ord":10},"4/3/26":{"vN":23,"vE":23,"fN":104.89,"fR":1301.34,"cN":1,"cR":7,"ord":8},"5/3/26":{"vN":14,"vE":8,"fN":0,"fR":1123.36,"cN":0,"cR":5,"ord":5},"6/3/26":{"vN":0,"vE":0,"fN":158.4,"fR":216.53,"cN":1,"cR":2,"ord":3}}}},"apr-26":{"Beppe":{"vN":8,"vE":41,"fN":86.24,"fR":3235.57,"convN":1,"convR":19,"ordN":1,"ordR":20,"weeks":{"1/4/26":{"vN":1,"vE":9,"fN":0,"fR":1028.08,"cN":0,"cR":4,"ord":4},"2/4/26":{"vN":7,"vE":32,"fN":86.24,"fR":2207.49,"cN":1,"cR":15,"ord":17}}},"Dimitri Gennuso":{"vN":29,"vE":19,"fN":163.54,"fR":1423.24,"convN":1,"convR":10,"ordN":1,"ordR":10,"weeks":{"1/4/26":{"vN":12,"vE":3,"fN":163.54,"fR":544.66,"cN":1,"cR":3,"ord":4},"2/4/26":{"vN":17,"vE":16,"fN":0,"fR":878.58,"cN":0,"cR":7,"ord":7}}}}};
+const AGENTS=["Beppe","Dimitri Gennuso"];
+const MONTHS=["dic-25","gen-26","feb-26","mar-26","apr-26"];
+const ML={"nov-25":"Nov 25","dic-25":"Dic 25","gen-26":"Gen 26","feb-26":"Feb 26","mar-26":"Mar 26","apr-26":"Apr 26"};
+const T={"visite_nuovi":{"mese":60,"week":15},"conversione_nuovi":{"mese":8,"week":2},"visite_attivi":{"mese":90,"week":23},"conversione_attivi":{"mese":40,"week":10},"fatt_nuovi":{"Beppe":{"mese":800,"week":200},"Dimitri Gennuso":{"mese":800,"week":200}},"fatt_riordini":{"Beppe":{"mese":9000,"week":2250},"Dimitri Gennuso":{"mese":7000,"week":1750}}};
+const CH={"dic-25":{"HORECA":16506.85,"PRIVATO":1113.83,"AMAZON":49.9,"DISTRIBUTORE":409.5,"ALTRO":911.1,"_TOTALE":18991.18},"gen-26":{"HORECA":16229.74,"AMAZON":49.1,"PRIVATO":90.84,"_TOTALE":16369.68},"feb-26":{"HORECA":15192.02,"ALTRO":819,"PRIVATO":444.96,"DISTRIBUTORE":718.39,"_TOTALE":17174.37},"mar-26":{"PRIVATO":286.11,"HORECA":20179.11,"FORNITURA":710.4,"_TOTALE":21175.62},"apr-26":{"HORECA":4908.59,"PRIVATO":100.98,"SOMMINISTRAZIONE":628.18,"ALTRO":972,"FORNITURA":4572,"_TOTALE":11181.75}};
+
+let curMonth='apr-26';
+
+function fmt(n){return new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR',minimumFractionDigits:0,maximumFractionDigits:0}).format(n);}
+function fmtD(n){return new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR',minimumFractionDigits:2,maximumFractionDigits:2}).format(n);}
+function cls(v,t){return v>=t?'g':v>=t*.6?'y':'r';}
+function pct(v,t){return t>0?Math.round(v/t*100):0;}
+function sortW(ws){return[...ws].sort((a,b)=>parseInt(a)-parseInt(b));}
+function bestPrev(metric,agent){
+  let best=0;
+  for(const m of MONTHS){
+    if(m===curMonth)continue;
+    const d=D[m]?.[agent];if(!d)continue;
+    let v=0;
+    if(metric==='vN')v=d.vN;else if(metric==='vE')v=d.vE;
+    else if(metric==='fN')v=d.fN;else if(metric==='fR')v=d.fR;
+    else if(metric==='convN')v=d.convN;else if(metric==='convR')v=d.convR;
+    if(v>best)best=v;
+  }
+  return best;
+}
+
+function render(){
+  renderOverview();
+  renderKPI();
+  renderWeekly();
+  renderPerf();
+  renderCharts();
+}
+
+function renderOverview(){
+  // Fatturato totale TUTTI I CANALI (separato dai sales)
+  const chData=CH[curMonth]||{};
+  const fatTotale=chData._TOTALE||0;
+  const fatHoreca=chData.HORECA||0;
+  const fatAltri=fatTotale-fatHoreca;
+  // Prev month for trend
+  const mi=MONTHS.indexOf(curMonth);
+  const pm=mi>0?MONTHS[mi-1]:null;
+  const prevChData=pm?CH[pm]||{}:{};
+  const prevFatTot=prevChData._TOTALE||0;
+  const deltaTot=prevFatTot>0?Math.round((fatTotale-prevFatTot)/prevFatTot*100):0;
+  const deltaTotCol=deltaTot>5?'#16a34a':deltaTot<-5?'#dc2626':'#64748b';
+  const deltaTotArr=deltaTot>5?'↑':deltaTot<-5?'↓':'→';
+
+  let totRev=0,totVis=0,totOrd=0;
+  const agentData=AGENTS.map(a=>{
+    const d=D[curMonth]?.[a];
+    if(!d)return{name:a,rev:0,vis:0,ord:0,delta:0};
+    const rev=d.fN+d.fR,vis=d.vN+d.vE,ord=d.ordN+d.ordR;
+    totRev+=rev;totVis+=vis;totOrd+=ord;
+    const pd=pm?D[pm]?.[a]:null;
+    const prevRev=pd?(pd.fN+pd.fR):0;
+    const delta=prevRev>0?Math.round((rev-prevRev)/prevRev*100):0;
+    return{name:a,rev,vis,ord,delta};
+  });
+
+  let h='<div class="ov-grid">';
+  // Fatturato TOTALE tutti canali — KPI principale in alto
+  h+='<div class="ov-card" style="border-left:4px solid #7c3aed;text-align:left;">';
+  h+='<div style="font-size:28px;font-weight:800;color:#1e293b;">'+fmtD(fatTotale)+'</div>';
+  h+='<div class="ov-label" style="text-align:left;">Fatturato Totale (tutti i canali)</div>';
+  h+='<div style="display:flex;gap:8px;margin-top:4px;font-size:11px;">';
+  h+='<span style="color:#64748b;">Horeca: <strong>'+fmt(fatHoreca)+'</strong></span>';
+  if(fatAltri>0) h+='<span style="color:#94a3b8;">· Altri: '+fmt(fatAltri)+'</span>';
+  h+='</div>';
+  h+='<div class="ov-trend" style="color:'+deltaTotCol+';margin-top:2px;">'+deltaTotArr+' '+(deltaTot>0?'+':'')+deltaTot+'% vs mese prec.</div>';
+  h+='</div>';
+  // Team Horeca + Visite + Ordini
+  h+='<div class="ov-card"><div class="ov-val">'+fmt(totRev)+'</div><div class="ov-label">Fatt. Team Horeca</div></div>';
+  h+='<div class="ov-card"><div class="ov-val">'+totVis+'</div><div class="ov-label">Visite Totali</div></div>';
+  h+='</div><div class="ov-grid">';
+  for(const a of agentData){
+    const col=a.delta>5?'#16a34a':a.delta<-5?'#dc2626':'#64748b';
+    const arrow=a.delta>5?'↑':a.delta<-5?'↓':'→';
+    const maxRev=Math.max(...agentData.map(x=>x.rev),1);
+    h+='<div class="ov-card" style="text-align:left;"><div style="font-weight:700;font-size:13px;margin-bottom:6px;">'+a.name+' <span style="font-size:10px;color:#94a3b8;font-weight:400;">Horeca</span></div>';
+    h+='<div style="display:flex;justify-content:space-between;"><span style="font-size:18px;font-weight:800;">'+fmtD(a.rev)+'</span><span class="ov-trend" style="color:'+col+';">'+arrow+' '+(a.delta>0?'+':'')+a.delta+'%</span></div>';
+    h+='<div style="font-size:11px;color:#64748b;margin-top:2px;">'+a.vis+' visite · '+a.ord+' ordini</div>';
+    h+='<div class="bar-wrap"><div class="bar" style="width:'+Math.round(a.rev/maxRev*100)+'%;background:linear-gradient(90deg,#6366f1,#818cf8);"></div></div>';
+    h+='</div>';
+  }
+  h+='</div>';
+  document.getElementById('overview').innerHTML=h;
+}
+
+function renderKPI(){
+  const kpis=[
+    {label:'Visite nuovi clienti',key:'vN',tM:T.visite_nuovi.mese,tW:T.visite_nuovi.week,wKey:'vN'},
+    {label:'Conversione nuovi clienti',key:'convN',tM:T.conversione_nuovi.mese,tW:T.conversione_nuovi.week,wKey:'cN'},
+    {label:'Visite clienti attivi',key:'vE',tM:T.visite_attivi.mese,tW:T.visite_attivi.week,wKey:'vE'},
+    {label:'Conversione clienti attivi',key:'convR',tM:T.conversione_attivi.mese,tW:T.conversione_attivi.week,wKey:'cR'},
+    {label:'Fatturato nuovi (Horeca)',key:'fN',tM:a=>T.fatt_nuovi[a]?.mese||800,tW:a=>T.fatt_nuovi[a]?.week||200,wKey:'fN',cur:true},
+    {label:'Fatturato riordini (Horeca)',key:'fR',tM:a=>T.fatt_riordini[a]?.mese||7000,tW:a=>T.fatt_riordini[a]?.week||1750,wKey:'fR',cur:true},
+  ];
+
+  // collect weeks
+  const ws=new Set();
+  AGENTS.forEach(a=>{const d=D[curMonth]?.[a];if(d)Object.keys(d.weeks).forEach(w=>ws.add(w));});
+  const weeks=sortW(ws);
+
+  let h='';
+  for(const kpi of kpis){
+    h+='<div class="card"><div class="card-h" style="border-left:3px solid #6366f1;">'+kpi.label+'</div><div class="card-b" style="padding:6px 10px;overflow-x:auto;"><table><thead><tr><th>Agente</th><th>Target</th><th>Actual</th><th>vs Target</th><th>vs Best</th>';
+    for(const w of weeks) h+='<th>W'+w.split('/')[0]+'</th>';
+    h+='</tr></thead><tbody>';
+
+    for(const a of AGENTS){
+      const d=D[curMonth]?.[a];
+      const tM=typeof kpi.tM==='function'?kpi.tM(a):kpi.tM;
+      const tW=typeof kpi.tW==='function'?kpi.tW(a):kpi.tW;
+      const actual=d?d[kpi.key]:0;
+      const p=pct(actual,tM);
+      const best=bestPrev(kpi.key,a);
+      const vsBest=best>0?Math.round((actual-best)/best*100):0;
+      const vbCol=vsBest>0?'#16a34a':vsBest<0?'#dc2626':'#64748b';
+      const fv=kpi.cur?fmt:v=>v;
+
+      h+='<tr><td>'+a.split(' ')[0]+'</td>';
+      h+='<td>'+fv(tM)+'</td>';
+      h+='<td class="'+cls(actual,tM)+'"><strong>'+fv(actual)+'</strong></td>';
+      h+='<td><span class="pill '+cls(actual,tM)+'">'+p+'%</span></td>';
+      h+='<td style="color:'+vbCol+';font-weight:600;font-size:11px;">'+(vsBest>0?'+':'')+vsBest+'%</td>';
+
+      for(const w of weeks){
+        const wv=d?.weeks?.[w]?.[kpi.wKey]||0;
+        const wVal=typeof wv==='object'?0:wv; // safety
+        h+='<td'+(wVal>=tW?' class="g"':wVal>0&&wVal<tW*.6?' class="r"':'')+'>'+(wVal>0?fv(wVal):'-')+'</td>';
+      }
+      h+='</tr>';
+    }
+    h+='</tbody></table></div></div>';
+  }
+  document.getElementById('kpiGrid').innerHTML=h;
+}
+
+function renderWeekly(){
+  const ws=new Set();
+  AGENTS.forEach(a=>{const d=D[curMonth]?.[a];if(d)Object.keys(d.weeks).forEach(w=>ws.add(w));});
+  const weeks=sortW(ws);
+
+  let h='<div class="card"><div class="card-h" onclick="this.nextElementSibling.classList.toggle(\'open\')" style="border-left:3px solid #059669;">';
+  h+='<span>Dettaglio Completo Settimanale</span><span class="toggle">Espandi ▼</span></div>';
+  h+='<div class="card-b collapse">';
+
+  for(const a of AGENTS){
+    const d=D[curMonth]?.[a]; if(!d)continue;
+    h+='<div style="margin-bottom:14px;"><div style="font-weight:700;padding:4px 8px;background:#f1f5f9;border-radius:6px;margin-bottom:4px;">'+a+'</div>';
+    h+='<table><thead><tr><th></th>';
+    for(const w of weeks) h+='<th>W'+w.split('/')[0]+'</th>';
+    h+='<th style="font-weight:700;">Totale</th></tr></thead><tbody>';
+
+    const rows=[
+      {label:'Visite nuovi',fn:w=>d.weeks[w]?.vN||0,tW:T.visite_nuovi.week,tM:T.visite_nuovi.mese,tot:d.vN},
+      {label:'Visite attivi',fn:w=>d.weeks[w]?.vE||0,tW:T.visite_attivi.week,tM:T.visite_attivi.mese,tot:d.vE},
+      {label:'VISITE TOT',fn:w=>(d.weeks[w]?.vN||0)+(d.weeks[w]?.vE||0),tW:T.visite_nuovi.week+T.visite_attivi.week,tM:T.visite_nuovi.mese+T.visite_attivi.mese,tot:d.vN+d.vE,bold:true},
+      {label:'Conv. nuovi',fn:w=>d.weeks[w]?.cN||0,tW:T.conversione_nuovi.week,tM:T.conversione_nuovi.mese,tot:d.convN},
+      {label:'Conv. attivi',fn:w=>d.weeks[w]?.cR||0,tW:T.conversione_attivi.week,tM:T.conversione_attivi.mese,tot:d.convR},
+      {label:'% Conv. nuovi',fn:w=>{const vn=d.weeks[w]?.vN||0,cn=d.weeks[w]?.cN||0;return vn>0?Math.round(cn/vn*100):0;},isPct:true,tot:d.vN>0?Math.round(d.convN/d.vN*100):0},
+      {label:'% Conv. attivi',fn:w=>{const ve=d.weeks[w]?.vE||0,cr=d.weeks[w]?.cR||0;return ve>0?Math.round(cr/ve*100):0;},isPct:true,tot:d.vE>0?Math.round(d.convR/d.vE*100):0},
+      {label:'Fatt. nuovi',fn:w=>d.weeks[w]?.fN||0,tW:T.fatt_nuovi[a]?.week||200,tM:T.fatt_nuovi[a]?.mese||800,tot:d.fN,cur:true},
+      {label:'Fatt. riordini',fn:w=>d.weeks[w]?.fR||0,tW:T.fatt_riordini[a]?.week||1750,tM:T.fatt_riordini[a]?.mese||7000,tot:d.fR,cur:true},
+      {label:'FATT. TOTALE',fn:w=>(d.weeks[w]?.fN||0)+(d.weeks[w]?.fR||0),tW:(T.fatt_nuovi[a]?.week||200)+(T.fatt_riordini[a]?.week||1750),tM:(T.fatt_nuovi[a]?.mese||800)+(T.fatt_riordini[a]?.mese||7000),tot:d.fN+d.fR,cur:true,bold:true},
+    ];
+
+    for(const row of rows){
+      const s=row.bold?'font-weight:700;border-top:2px solid #e2e8f0;':'';
+      h+='<tr style="'+s+'"><td style="font-size:11px;'+(row.bold?'font-weight:700;':'')+'">'+row.label+'</td>';
+      for(const w of weeks){
+        const v=row.fn(w);
+        let c='';
+        if(row.isPct){c=v>=30?'g':v>=15?'y':v>0?'r':'';}
+        else if(row.tW){c=v>=row.tW?'g':v>=row.tW*.6?'y':'';}
+        const disp=v>0?(row.cur?fmt(v):row.isPct?v+'%':v):'-';
+        h+='<td'+(c?' class="'+c+'"':'')+'>'+disp+'</td>';
+      }
+      let tc='';
+      if(row.isPct)tc=row.tot>=30?'g':row.tot>=15?'y':row.tot>0?'r':'';
+      else if(row.tM)tc=cls(row.tot,row.tM);
+      const totDisp=row.tot>0?(row.cur?fmt(row.tot):row.isPct?row.tot+'%':row.tot):'-';
+      h+='<td class="'+tc+'" style="font-weight:700;">'+totDisp+'</td></tr>';
+    }
+    h+='</tbody></table></div>';
+  }
+  h+='</div></div>';
+  document.getElementById('weeklyDetail').innerHTML=h;
+}
+
+function renderPerf(){
+  let h='<div class="card"><div class="card-h" style="border-left:3px solid #d97706;">Performance Sales — Trend Mensile</div><div class="card-b">';
+
+  // Table: agent x months with key metrics
+  h+='<table><thead><tr><th>Agente</th><th>Metrica</th>';
+  for(const m of MONTHS) h+='<th>'+ML[m]+'</th>';
+  h+='</tr></thead><tbody>';
+
+  for(const a of AGENTS){
+    const metrics=[
+      {label:'Visite totali',fn:m=>{const d=D[m]?.[a];return d?(d.vN+d.vE):0;}},
+      {label:'Fatt. nuovi',fn:m=>D[m]?.[a]?.fN||0,cur:true},
+      {label:'Fatt. riordini',fn:m=>D[m]?.[a]?.fR||0,cur:true},
+      {label:'FATTURATO',fn:m=>{const d=D[m]?.[a];return d?(d.fN+d.fR):0;},cur:true,bold:true},
+      {label:'Ordini',fn:m=>{const d=D[m]?.[a];return d?(d.ordN+d.ordR):0;}},
+      {label:'Conv. nuovi',fn:m=>D[m]?.[a]?.convN||0},
+      {label:'Conv. attivi',fn:m=>D[m]?.[a]?.convR||0},
+    ];
+
+    for(let mi=0;mi<metrics.length;mi++){
+      const met=metrics[mi];
+      const vals=MONTHS.map(m=>met.fn(m));
+      const maxV=Math.max(...vals,1);
+      h+='<tr'+(met.bold?' style="border-top:2px solid #e2e8f0;"':'')+'>';
+      if(mi===0) h+='<td rowspan="'+metrics.length+'" style="font-weight:700;vertical-align:top;padding-top:6px;">'+a.split(' ')[0]+'</td>';
+      h+='<td style="font-size:11px;'+(met.bold?'font-weight:700;':'')+'">'+met.label+'</td>';
+      for(const v of vals){
+        const disp=v>0?(met.cur?fmt(v):v):'-';
+        h+='<td style="'+(met.bold?'font-weight:700;':'')+'">'+disp+'</td>';
+      }
+      h+='</tr>';
+    }
+  }
+
+  // Team totals
+  h+='<tr style="background:#f8fafc;border-top:3px solid #4f46e5;"><td colspan="2" style="font-weight:800;color:#4f46e5;">TEAM Fatturato</td>';
+  for(const m of MONTHS){
+    let t=0;AGENTS.forEach(a=>{const d=D[m]?.[a];if(d)t+=d.fN+d.fR;});
+    h+='<td style="font-weight:800;color:#4f46e5;">'+(t>0?fmt(t):'-')+'</td>';
+  }
+  h+='</tr><tr style="background:#f8fafc;"><td colspan="2" style="font-weight:800;color:#4f46e5;">TEAM Visite</td>';
+  for(const m of MONTHS){
+    let t=0;AGENTS.forEach(a=>{const d=D[m]?.[a];if(d)t+=d.vN+d.vE;});
+    h+='<td style="font-weight:800;color:#4f46e5;">'+(t>0?t:'-')+'</td>';
+  }
+  h+='</tr>';
+
+  h+='</tbody></table></div></div>';
+  document.getElementById('perfSection').innerHTML=h;
+}
+
+// Charts
+let charts={};
+function renderCharts(){
+  const colors=['#6366f1','#f59e0b','#10b981','#ec4899'];
+  const labels=MONTHS.map(m=>ML[m]||m);
+
+  // Destroy existing
+  Object.values(charts).forEach(c=>{if(c)c.destroy();});
+
+  // Revenue chart — agents (Horeca) + totale tutti canali
+  const revDS=AGENTS.map((a,i)=>({
+    label:a+' (Horeca)',
+    data:MONTHS.map(m=>{const d=D[m]?.[a];return d?Math.round(d.fN+d.fR):0;}),
+    backgroundColor:colors[i%colors.length]+'33',
+    borderColor:colors[i%colors.length],
+    borderWidth:2,fill:true,tension:0.3
+  }));
+  revDS.push({
+    label:'Team Horeca',
+    data:MONTHS.map(m=>{let t=0;AGENTS.forEach(a=>{const d=D[m]?.[a];if(d)t+=d.fN+d.fR;});return Math.round(t);}),
+    backgroundColor:'#1e293b22',borderColor:'#1e293b',borderWidth:2,borderDash:[5,3],fill:false,tension:0.3
+  });
+  revDS.push({
+    label:'Totale Tutti Canali',
+    data:MONTHS.map(m=>Math.round(CH[m]?._TOTALE||0)),
+    backgroundColor:'#7c3aed22',borderColor:'#7c3aed',borderWidth:3,fill:false,tension:0.3,
+    pointRadius:5,pointBackgroundColor:'#7c3aed'
+  });
+  charts.rev=new Chart(document.getElementById('chartRevenue'),{
+    type:'line',data:{labels,datasets:revDS},
+    options:{responsive:true,plugins:{legend:{position:'bottom',labels:{font:{size:11}}}},
+      scales:{y:{beginAtZero:true,ticks:{callback:v=>'\u20ac'+v.toLocaleString('it-IT')}}}}
+  });
+
+  // Visite chart
+  const visDS=AGENTS.map((a,i)=>({
+    label:a,
+    data:MONTHS.map(m=>{const d=D[m]?.[a];return d?d.vN+d.vE:0;}),
+    backgroundColor:colors[i%colors.length],borderColor:colors[i%colors.length],borderWidth:1
+  }));
+  charts.vis=new Chart(document.getElementById('chartVisite'),{
+    type:'bar',data:{labels,datasets:visDS},
+    options:{responsive:true,plugins:{legend:{position:'bottom',labels:{font:{size:11}}}},
+      scales:{y:{beginAtZero:true}}}
+  });
+
+  // Conversioni chart
+  const convDS=[];
+  AGENTS.forEach((a,i)=>{
+    convDS.push({
+      label:a+' (nuovi)',
+      data:MONTHS.map(m=>D[m]?.[a]?.convN||0),
+      backgroundColor:colors[i%colors.length]+'88',borderColor:colors[i%colors.length],borderWidth:1,
+      stack:'stack'+i
+    });
+    convDS.push({
+      label:a+' (attivi)',
+      data:MONTHS.map(m=>D[m]?.[a]?.convR||0),
+      backgroundColor:colors[i%colors.length]+'44',borderColor:colors[i%colors.length],borderWidth:1,
+      stack:'stack'+i
+    });
+  });
+  charts.conv=new Chart(document.getElementById('chartConversioni'),{
+    type:'bar',data:{labels,datasets:convDS},
+    options:{responsive:true,plugins:{legend:{position:'bottom',labels:{font:{size:10}}}},
+      scales:{y:{beginAtZero:true,stacked:true},x:{stacked:true}}}
+  });
+}
+
+// Tabs
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    curMonth=tab.dataset.m;
+    renderOverview();
+    renderKPI();
+    renderWeekly();
+  });
+});
+
+render();
+</script>
+</body></html>

@@ -9,7 +9,7 @@ cd "$REPO_DIR"
 node daily-kpi-report.js --output-dir "$REPORT_DIR"
 
 # 1b. Forza aggiornamento index.html per GitHub Pages
-cp "$REPORT_DIR/latest.html" "$REPO_DIR/../index.html"
+cp "$REPORT_DIR/latest.html" "$REPO_DIR/index.html"
 
 # 2. Leggi i dati dal JSON
 META=$(cat "$REPORT_DIR/latest-meta.json")
@@ -65,6 +65,6 @@ EOF
 gog gmail send --account eva@womix.io --to "$RECIPIENTS" --subject "$SUBJECT" --body-html "$EMAIL_BODY" -y
 
 # 5. Push su GitHub per innescare (si spera) l'aggiornamento Surge
-git add reports/latest.html reports/latest-meta.json
+git add reports/latest.html reports/latest-meta.json index.html
 git commit -m "Auto-update report $(date)"
 git push origin master:main

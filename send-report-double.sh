@@ -1,7 +1,7 @@
 #!/bin/bash
 # Duck Dive Sales Report — Double Wave Delivery (Dane first, then Team)
 REPO_DIR="/home/node/.openclaw/workspace/projects/duck-dive/sales-reports"
-REPORT_DIR="$REPO_DIR/reports"
+REPORT_DIR="/home/node/.openclaw/workspace/public/duck-dive"
 DANE_EMAIL="daniele.scaglia@womix.io"
 TEAM_EMAILS="daniele.scaglia@womix.io,giuseppe.langella@duckdivegin.com,mella.federico@gmail.com,marco.biasibetti@gmail.com"
 
@@ -46,7 +46,7 @@ read -r -d '' EMAIL_BODY << EOF
         </table>
 
         <div style="text-align: center; margin: 30px 0;">
-            <a href="https://danielescaglia-eng.github.io/duck-dive-sales-report/" 
+            <a href="http://187.77.93.30:8085/latest.html" 
                style="background: #4f46e5; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">
                📈 Visualizza Report Online
             </a>

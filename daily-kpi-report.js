@@ -197,45 +197,48 @@ function generateHTML({ agents: data, channelTotals }) {
   const html = `<!DOCTYPE html><html lang="it"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"><\/script>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:#f1f3f9;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#1e293b;font-size:13px}
-.wrap{max-width:820px;margin:0 auto;padding:12px}
-.hdr{background:linear-gradient(135deg,#1e1b4b,#312e81);border-radius:14px;padding:22px;text-align:center;margin-bottom:10px;color:#fff}
-.hdr h1{font-size:17px;font-weight:800;letter-spacing:1px;margin-bottom:4px}
-.hdr .sub{font-size:11px;color:#a5b4fc}
-.card{background:#fff;border-radius:10px;margin-bottom:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06)}
-.card-h{padding:10px 14px;font-size:13px;font-weight:700;display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none}
-.card-h:hover{background:#f8fafc}
-.card-b{padding:10px 14px}
-.tabs{display:flex;gap:4px;margin-bottom:10px;flex-wrap:wrap}
-.tab{padding:6px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid #e2e8f0;background:#fff;transition:.15s}
-.tab.active{background:#4f46e5;color:#fff;border-color:#4f46e5}
-.tab:hover:not(.active){background:#f1f5f9}
-table{width:100%;border-collapse:collapse}
-th{padding:5px 6px;font-size:10px;color:#64748b;text-transform:uppercase;background:#f8fafc;text-align:center;letter-spacing:.3px}
-th:first-child{text-align:left}
-td{padding:4px 6px;text-align:center;border-bottom:1px solid #f0f0f0;font-size:12px}
-td:first-child{text-align:left;font-weight:600}
-.g{background:#dcfce7;color:#166534}.r{background:#fee2e2;color:#991b1b}.y{background:#fef9c3;color:#854d0e}
-.pill{display:inline-block;padding:1px 6px;border-radius:4px;font-weight:700;font-size:11px}
-.ov-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:10px}
-.ov-card{background:#fff;border-radius:10px;padding:14px;box-shadow:0 1px 3px rgba(0,0,0,.06);text-align:center}
-.ov-val{font-size:24px;font-weight:800;color:#1e293b}
-.ov-label{font-size:11px;color:#64748b;margin-top:2px}
-.ov-trend{font-size:12px;font-weight:600;margin-top:4px}
-.bar-wrap{background:#e5e7eb;border-radius:4px;height:6px;margin-top:4px}
-.bar{border-radius:4px;height:6px;transition:width .3s}
-.perf-row{display:flex;gap:8px;margin-bottom:8px;align-items:center}
-.perf-name{width:80px;font-weight:700;font-size:12px}
-.perf-bars{flex:1}
-.perf-val{width:70px;text-align:right;font-weight:700;font-size:12px}
-.collapse{display:none}.collapse.open{display:block}
-.toggle{font-size:11px;color:#6366f1;cursor:pointer;font-weight:600}
-.toggle:hover{text-decoration:underline}
-.footer{text-align:center;padding:10px;font-size:10px;color:#94a3b8}
+:root {
+  --bg: #0f1117;
+  --card: #1a1d27;
+  --card-hover: #22263a;
+  --border: #2a2e3d;
+  --text: #e4e6eb;
+  --text-muted: #8b8fa3;
+  --accent: #f59e0b;
+  --green: #22c55e;
+  --red: #ef4444;
+  --blue: #3b82f6;
+  --purple: #a855f7;
+}
+* { box-sizing:border-box; margin:0; padding:0; }
+body { background: var(--bg); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: var(--text); font-size: 13px; line-height: 1.5; }
+.wrap { max-width: 1200px; margin: 0 auto; padding: 24px; }
+.hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+.hdr h1 { font-size: 28px; font-weight: 700; color: var(--text); }
+.hdr h1 span { color: var(--accent); }
+.hdr .sub { text-align: right; color: var(--text-muted); font-size: 13px; }
+.card { background: var(--card); border-radius: 12px; margin-bottom: 24px; overflow: hidden; border: 1px solid var(--border); transition: border-color .2s; }
+.card:hover { border-color: var(--accent); }
+.card-h { padding: 16px 20px; font-size: 14px; font-weight: 600; color: var(--text); border-bottom: 1px solid var(--border); }
+.card-b { padding: 20px; }
+.tabs { display: flex; gap: 4px; margin-bottom: 24px; background: var(--card); border-radius: 12px; padding: 4px; overflow-x: auto; }
+.tab { padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; color: var(--text-muted); transition: all .2s; border: none; background: none; }
+.tab:hover { color: var(--text); background: var(--card-hover); }
+.tab.active { color: var(--bg); background: var(--accent); font-weight: 600; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+th { padding: 12px 16px; text-align: left; font-weight: 600; color: var(--text-muted); border-bottom: 2px solid var(--border); font-size: 11px; text-transform: uppercase; letter-spacing: .5px; background: var(--card); position: sticky; top: 0; }
+td { padding: 10px 16px; border-bottom: 1px solid var(--border); font-variant-numeric: tabular-nums; color: var(--text); font-size: 13px; }
+tr:hover { background: var(--card-hover); }
+.g { color: var(--green); }.r { color: var(--red); }.y { color: var(--accent); }
+.pill { display: inline-block; padding: 2px 8px; border-radius: 6px; font-weight: 600; font-size: 11px; }
+.ov-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-bottom: 28px; }
+.ov-card { background: var(--card); border-radius: 12px; padding: 20px; border: 1px solid var(--border); text-align: center; }
+.ov-val { font-size: 26px; font-weight: 700; color: var(--text); }
+.ov-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
+.footer { text-align: center; padding: 24px; font-size: 12px; color: var(--text-muted); border-top: 1px solid var(--border); margin-top: 32px; }
 </style></head><body>
 <div class="wrap">
-<div class="hdr"><h1>DUCK DIVE — Sales Report</h1><div class="sub">Settimana ${wn} · ${wr.start} – ${wr.end} · ${dateStr}</div></div>
+<div class="hdr"><h1><span>Duck Dive</span> — Sales Report</h1><div class="sub">Settimana ${wn} · ${wr.start} – ${wr.end} · ${dateStr}</div></div>
 
 <!-- Month tabs -->
 <div class="tabs" id="monthTabs">
@@ -514,7 +517,7 @@ function renderPerf(){
 // Charts
 let charts={};
 function renderCharts(){
-  const colors=['#6366f1','#f59e0b','#10b981','#ec4899'];
+  const colors=['#f59e0b','#3b82f6','#22c55e','#ef4444'];
   const labels=MONTHS.map(m=>ML[m]||m);
 
   // Destroy existing
@@ -616,7 +619,7 @@ function getWeekRange(d){const date=new Date(d);const day=date.getDay();const di
 async function main() {
   const args = process.argv.slice(2);
   const outputDir = args.includes('--output-dir') ? args[args.indexOf('--output-dir') + 1]
-    : path.join(__dirname, '..', 'docs', 'reports');
+    : '/home/node/.openclaw/workspace/public/duck-dive';
 
   console.log('Fetching...');
   const [v, s] = await Promise.all([fetchCSV(BASE + GID.visite), fetchCSV(BASE + GID.venduto)]);

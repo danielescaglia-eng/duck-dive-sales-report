@@ -1,24 +1,24 @@
 {
-  "generated": "2026-04-13T10:26:03.665Z",
-  "subject": "[Duck Dive] Sales Report S16 — 13/04/2026",
-  "reportFile": "/home/node/.openclaw/workspace/projects/duck-dive/sales-reports/reports/daily-kpi-2026-04-13.html",
+  "generated": "2026-04-14T00:00:37.356Z",
+  "subject": "[Duck Dive] Sales Report S16 — 14/04/2026",
+  "reportFile": "/home/node/.openclaw/workspace/projects/duck-dive/sales-reports/reports/daily-kpi-2026-04-14.html",
   "latestFile": "/home/node/.openclaw/workspace/projects/duck-dive/sales-reports/reports/latest.html",
   "recipients": [],
   "focusMonth": "apr-26",
   "agents": [
     {
       "name": "Beppe",
-      "vN": 8,
-      "vE": 41,
+      "vN": 9,
+      "vE": 43,
       "fN": 86.24,
-      "fR": 3235.57
+      "fR": 3446.43
     },
     {
       "name": "Dimitri Gennuso",
       "vN": 29,
-      "vE": 19,
+      "vE": 25,
       "fN": 163.54,
-      "fR": 1423.24
+      "fR": 1872.84
     }
   ]
 }

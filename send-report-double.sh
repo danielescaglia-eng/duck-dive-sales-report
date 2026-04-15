@@ -46,7 +46,7 @@ read -r -d '' EMAIL_BODY << EOF
         </table>
 
         <div style="text-align: center; margin: 30px 0;">
-            <a href="http://187.77.93.30:8085/latest.html" 
+            <a href="https://duck-dive.womix.io/latest.html" 
                style="background: #4f46e5; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">
                📈 Visualizza Report Online
             </a>

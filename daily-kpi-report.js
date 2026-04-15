@@ -207,35 +207,44 @@ function generateHTML({ agents: data, channelTotals }) {
   --accent: #f59e0b;
   --green: #22c55e;
   --red: #ef4444;
-  --blue: #3b82f6;
-  --purple: #a855f7;
 }
 * { box-sizing:border-box; margin:0; padding:0; }
-body { background: var(--bg); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: var(--text); font-size: 13px; line-height: 1.5; }
-.wrap { max-width: 1200px; margin: 0 auto; padding: 24px; }
-.hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
-.hdr h1 { font-size: 28px; font-weight: 700; color: var(--text); }
+body { background: var(--bg); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: var(--text); font-size: 13px; }
+.wrap { max-width: 820px; margin: 0 auto; padding: 12px; }
+.hdr { background: transparent; padding: 22px; text-align: center; margin-bottom: 10px; border-bottom: 1px solid var(--border); }
+.hdr h1 { font-size: 17px; font-weight: 800; letter-spacing: 1px; margin-bottom: 4px; color: var(--text); }
 .hdr h1 span { color: var(--accent); }
-.hdr .sub { text-align: right; color: var(--text-muted); font-size: 13px; }
-.card { background: var(--card); border-radius: 12px; margin-bottom: 24px; overflow: hidden; border: 1px solid var(--border); transition: border-color .2s; }
-.card:hover { border-color: var(--accent); }
-.card-h { padding: 16px 20px; font-size: 14px; font-weight: 600; color: var(--text); border-bottom: 1px solid var(--border); }
-.card-b { padding: 20px; }
-.tabs { display: flex; gap: 4px; margin-bottom: 24px; background: var(--card); border-radius: 12px; padding: 4px; overflow-x: auto; }
-.tab { padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; color: var(--text-muted); transition: all .2s; border: none; background: none; }
-.tab:hover { color: var(--text); background: var(--card-hover); }
-.tab.active { color: var(--bg); background: var(--accent); font-weight: 600; }
-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
-th { padding: 12px 16px; text-align: left; font-weight: 600; color: var(--text-muted); border-bottom: 2px solid var(--border); font-size: 11px; text-transform: uppercase; letter-spacing: .5px; background: var(--card); position: sticky; top: 0; }
-td { padding: 10px 16px; border-bottom: 1px solid var(--border); font-variant-numeric: tabular-nums; color: var(--text); font-size: 13px; }
+.hdr .sub { font-size: 11px; color: var(--text-muted); }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 10px; overflow: hidden; }
+.card-h { padding: 10px 14px; font-size: 13px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; color: var(--text); }
+.card-h:hover { background: var(--card-hover); }
+.card-b { padding: 10px 14px; }
+.tabs { display: flex; gap: 4px; margin-bottom: 10px; flex-wrap: wrap; }
+.tab { padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: var(--card); color: var(--text-muted); transition: .15s; }
+.tab.active { background: var(--accent); color: #0f1117; border-color: var(--accent); }
+.tab:hover:not(.active) { background: var(--card-hover); color: var(--text); }
+table { width: 100%; border-collapse: collapse; }
+th { padding: 5px 6px; font-size: 10px; color: var(--text-muted); text-transform: uppercase; background: var(--card); text-align: center; letter-spacing: .3px; border-bottom: 2px solid var(--border); }
+th:first-child { text-align: left; }
+td { padding: 4px 6px; text-align: center; border-bottom: 1px solid var(--border); font-size: 12px; color: var(--text); }
+td:first-child { text-align: left; font-weight: 600; }
 tr:hover { background: var(--card-hover); }
-.g { color: var(--green); }.r { color: var(--red); }.y { color: var(--accent); }
-.pill { display: inline-block; padding: 2px 8px; border-radius: 6px; font-weight: 600; font-size: 11px; }
-.ov-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-bottom: 28px; }
-.ov-card { background: var(--card); border-radius: 12px; padding: 20px; border: 1px solid var(--border); text-align: center; }
-.ov-val { font-size: 26px; font-weight: 700; color: var(--text); }
-.ov-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
-.footer { text-align: center; padding: 24px; font-size: 12px; color: var(--text-muted); border-top: 1px solid var(--border); margin-top: 32px; }
+.g { color: var(--green); }
+.r { color: var(--red); }
+.y { color: var(--accent); }
+.pill { display: inline-block; padding: 1px 6px; border-radius: 4px; font-weight: 700; font-size: 11px; }
+.ov-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 10px; }
+.ov-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; text-align: center; }
+.ov-val { font-size: 24px; font-weight: 800; color: var(--text); }
+.ov-label { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+.ov-trend { font-size: 12px; font-weight: 600; margin-top: 4px; }
+.bar-wrap { background: var(--border); border-radius: 4px; height: 6px; margin-top: 4px; }
+.bar { border-radius: 4px; height: 6px; transition: width .3s; }
+.collapse { display: none; }
+.collapse.open { display: block; }
+.toggle { font-size: 11px; color: var(--accent); cursor: pointer; font-weight: 600; }
+.toggle:hover { text-decoration: underline; }
+.footer { text-align: center; padding: 10px; font-size: 10px; color: var(--text-muted); }
 </style></head><body>
 <div class="wrap">
 <div class="hdr"><h1><span>Duck Dive</span> — Sales Report</h1><div class="sub">Settimana ${wn} · ${wr.start} – ${wr.end} · ${dateStr}</div></div>
@@ -335,7 +344,7 @@ function renderOverview(){
   let h='<div class="ov-grid">';
   // Fatturato TOTALE tutti canali — KPI principale in alto
   h+='<div class="ov-card" style="border-left:4px solid #7c3aed;text-align:left;">';
-  h+='<div style="font-size:28px;font-weight:800;color:#1e293b;">'+fmtD(fatTotale)+'</div>';
+  h+='<div style="font-size:28px;font-weight:800;color:var(--text);">'+fmtD(fatTotale)+'</div>';
   h+='<div class="ov-label" style="text-align:left;">Fatturato Totale (tutti i canali)</div>';
   h+='<div style="display:flex;gap:8px;margin-top:4px;font-size:11px;">';
   h+='<span style="color:#64748b;">Horeca: <strong>'+fmt(fatHoreca)+'</strong></span>';
@@ -646,6 +655,9 @@ async function main() {
   const lp=path.join(outputDir,'latest.html');
   fs.writeFileSync(fp,html,'utf-8');
   fs.writeFileSync(lp,html,'utf-8');
+  // Copia anche in sales-kpi.html per la dashboard CE
+  const sp=path.join(outputDir,'sales-kpi.html');
+  fs.writeFileSync(sp,html,'utf-8');
   fs.writeFileSync(path.join(outputDir,'latest-meta.json'),JSON.stringify({
     generated:new Date().toISOString(),subject,reportFile:fp,latestFile:lp,
     recipients:[],focusMonth:latest,

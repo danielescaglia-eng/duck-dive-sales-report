@@ -97,7 +97,7 @@ read -r -d '' EMAIL_BODY << 'EOF'
             <p>Il report è pronto. <strong>Vedi i dettagli</strong>:</p>
 
             <center>
-                <a href="https://duck-dive-report.surge.sh/" class="cta-button">
+                <a href="https://dashboard.duckdive.surf/" class="cta-button">
                     📈 Visualizza Report Completo
                 </a>
             </center>

@@ -61,8 +61,9 @@ read -r -d '' EMAIL_BODY << EOF
 </html>
 EOF
 
-# 4. Invia l'email
-gog gmail send --account eva@womix.io --to "$RECIPIENTS" --subject "$SUBJECT" --body-html "$EMAIL_BODY" -y
+# 4. Invia l'email — DISABILITATO
+echo "✅ Report generato localmente (invio email disabilitato)"
+# gog gmail send --account eva@womix.io --to "$RECIPIENTS" --subject "$SUBJECT" --body-html "$EMAIL_BODY" -y
 
 # 5. Push su GitHub per innescare (si spera) l'aggiornamento Surge
 git add reports/latest.html reports/latest-meta.json index.html

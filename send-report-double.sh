@@ -2,8 +2,7 @@
 # Duck Dive Sales Report — Double Wave Delivery (Dane first, then Team)
 REPO_DIR="/home/node/.openclaw/workspace/projects/duck-dive/sales-reports"
 REPORT_DIR="/home/node/.openclaw/workspace/public/duck-dive"
-DANE_EMAIL="daniele.scaglia@womix.io"
-TEAM_EMAILS="daniele.scaglia@womix.io,giuseppe.langella@duckdivegin.com,mella.federico@gmail.com,marco.biasibetti@gmail.com"
+# DANE_EMAIL="daniele.scaglia@womix.io"
 
 # 1. NON rigenerare i dati qui per evitare conflitti con il push notturno.
 # I dati vengono generati e pushati dal cron job delle 02:00.
@@ -57,8 +56,8 @@ read -r -d '' EMAIL_BODY << EOF
 EOF
 
 # 4. Invia l'email a tutto il team (incluso Dane)
-echo "📧 Invio report a tutto il team..."
-gog gmail send --account eva@womix.io --to "$TEAM_EMAILS" --subject "$SUBJECT" --body-html "$EMAIL_BODY" -y
+# echo "📧 Invio report a tutto il team..."
+# gog gmail send --account eva@womix.io --to "$TEAM_EMAILS" --subject "$SUBJECT" --body-html "$EMAIL_BODY" -y
 
 # 5. Rimosso push da qui, ora gestito dal cron job dedicato delle 02:00
 exit 0

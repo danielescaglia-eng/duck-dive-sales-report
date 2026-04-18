@@ -2,7 +2,7 @@
 # Duck Dive Sales Report — Simple Email Friendly Template
 REPO_DIR="/home/node/.openclaw/workspace/projects/duck-dive/sales-reports"
 REPORT_DIR="$REPO_DIR/reports"
-RECIPIENTS="daniele.scaglia@womix.io,giuseppe.langella@duckdivegin.com,mella.federico@gmail.com,marco.biasibetti@gmail.com"
+RECIPIENTS="daniele.scaglia@womix.io"
 
 # 1. Genera i dati (aggiorna latest-meta.json)
 cd "$REPO_DIR"

@@ -6,8 +6,7 @@ DAY_TYPE="${1:-weekday}"
 REPO_DIR="/home/node/.openclaw/workspace/projects/duck-dive/sales-reports"
 REPORT_DIR="$REPO_DIR/reports"
 
-RECIPIENTS="daniele.scaglia@womix.io"
-# RECIPIENTS_FULL="daniele.scaglia@womix.io,giuseppe.langella@duckdivegin.com,mella.federico@gmail.com,marco.biasibetti@gmail.com"
+# RECIPIENTS="daniele.scaglia@womix.io"
 
 # Generate report
 echo "📊 Generating report..."

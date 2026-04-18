@@ -42,22 +42,23 @@ try {
   process.exit(1);
 }
 
-// Send via gog
-console.log('📧 Sending report to:', recipient);
+// Send via gog — DISABLED
+console.log('✅ Report loaded locally (email sending disabled)');
 console.log('📋 Subject:', meta.subject);
+console.log('📧 Would send to:', recipient);
 
-const cmd = `gog send-email \
-  --to "${recipient}" \
-  --subject "${meta.subject}" \
-  --body "${html}" \
-  --html`;
-
-try {
-  const output = execSync(cmd, { encoding: 'utf-8', stdio: 'pipe' });
-  console.log('✅ Email sent successfully!');
-  console.log(output);
-} catch (e) {
-  console.error('❌ Failed to send email:');
-  console.error(e.message);
-  process.exit(1);
-}
+// const cmd = `gog send-email \
+//   --to "${recipient}" \
+//   --subject "${meta.subject}" \
+//   --body "${html}" \
+//   --html`;
+//
+// try {
+//   const output = execSync(cmd, { encoding: 'utf-8', stdio: 'pipe' });
+//   console.log('✅ Email sent successfully!');
+//   console.log(output);
+// } catch (e) {
+//   console.error('❌ Failed to send email:');
+//   console.error(e.message);
+//   process.exit(1);
+// }

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏄 Countdown Peniche — Surf Trip</title>
+
+<!-- Anteprima per WhatsApp / social -->
+<meta property="og:title" content="🏄 Si va a Peniche! Countdown surf trip">
+<meta property="og:description" content="Conto alla rovescia per il 4 ottobre: si parte a surfare a Peniche! Tocca per vedere quanto manca.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0a4d68">
+
+<style>
+  :root {
+    --ocean-deep: #03364a;
+    --ocean: #0a4d68;
+    --ocean-light: #088395;
+    --foam: #e7f6f2;
+    --sand: #f9e0a8;
+    --coral: #ff6b6b;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body { height: 100%; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--foam);
+    text-align: center;
+    min-height: 100%;
+    background: linear-gradient(180deg, #021f2c 0%, #03364a 35%, #0a4d68 70%, #088395 100%);
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px 60px;
+    position: relative;
+  }
+
+  /* sole */
+  .sun {
+    position: fixed;
+    top: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ffe8a3 0%, #ffd166 55%, rgba(255,209,102,0) 72%);
+    filter: blur(2px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* onde animate in fondo */
+  .waves {
+    position: fixed;
+    bottom: 0; left: 0;
+    width: 100%;
+    height: 140px;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .waves svg { width: 200%; height: 100%; }
+  .wave-back { animation: drift 14s linear infinite; opacity: .35; }
+  .wave-front { animation: drift 9s linear infinite reverse; opacity: .55; }
+  @keyframes drift { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  .content { position: relative; z-index: 1; width: 100%; max-width: 620px; }
+
+  .surfer { font-size: 64px; line-height: 1; animation: bob 3s ease-in-out infinite; }
+  @keyframes bob { 0%,100% { transform: translateY(0) rotate(-4deg);} 50% { transform: translateY(-10px) rotate(4deg);} }
+
+  h1 {
+    font-size: clamp(28px, 7vw, 48px);
+    margin: 12px 0 4px;
+    letter-spacing: .5px;
+    text-shadow: 0 2px 12px rgba(0,0,0,.35);
+  }
+
+  .subtitle {
+    font-size: clamp(15px, 4vw, 19px);
+    color: var(--sand);
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+
+  .date-label {
+    display: inline-block;
+    margin: 14px 0 26px;
+    padding: 8px 18px;
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 999px;
+    font-size: 15px;
+    backdrop-filter: blur(4px);
+  }
+
+  .countdown {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .unit {
+    background: rgba(255,255,255,.10);
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 18px;
+    padding: 16px 8px 12px;
+    min-width: 78px;
+    flex: 1 1 78px;
+    max-width: 120px;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 8px 24px rgba(0,0,0,.20);
+  }
+  .unit .num {
+    font-size: clamp(30px, 9vw, 52px);
+    font-weight: 800;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 2px 8px rgba(0,0,0,.3);
+  }
+  .unit .lbl {
+    margin-top: 8px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--sand);
+  }
+
+  .arrived {
+    display: none;
+    margin-top: 26px;
+    font-size: clamp(20px, 5vw, 28px);
+    font-weight: 800;
+    color: var(--sand);
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { transform: scale(1);} 50% { transform: scale(1.06);} }
+
+  .footer {
+    margin-top: 34px;
+    font-size: 13px;
+    color: rgba(231,246,242,.7);
+    line-height: 1.6;
+  }
+  .footer .spot { color: var(--foam); font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="sun"></div>
+
+  <div class="content">
+    <div class="surfer">🏄</div>
+    <h1>Si va a Peniche!</h1>
+    <div class="subtitle">Surf trip 🌊 — preparate la muta</div>
+    <div class="date-label">📅 Sabato 4 Ottobre 2026</div>
+
+    <div class="countdown" id="countdown">
+      <div class="unit"><div class="num" id="days">--</div><div class="lbl">Giorni</div></div>
+      <div class="unit"><div class="num" id="hours">--</div><div class="lbl">Ore</div></div>
+      <div class="unit"><div class="num" id="minutes">--</div><div class="lbl">Minuti</div></div>
+      <div class="unit"><div class="num" id="seconds">--</div><div class="lbl">Secondi</div></div>
+    </div>
+
+    <div class="arrived" id="arrived">🎉 È IL GIORNO! In acqua! 🏄🌊</div>
+
+    <div class="footer">
+      Destinazione: <span class="spot">Peniche, Portogallo</span> 🇵🇹<br>
+      Onde, sole e buona compagnia. A bombarda! 🤙
+    </div>
+  </div>
+
+  <!-- onde -->
+  <div class="waves">
+    <svg class="wave-back" viewBox="0 0 1440 140" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#0a4d68" d="M0,64 C240,120 480,8 720,48 C960,88 1200,16 1440,56 L1440,140 L0,140 Z"></path>
+    </svg>
+    <svg class="wave-front" viewBox="0 0 1440 140" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="position:absolute;bottom:0;left:0;">
+      <path fill="#03364a" d="M0,88 C240,40 480,128 720,80 C960,32 1200,104 1440,72 L1440,140 L0,140 Z"></path>
+    </svg>
+  </div>
+
+<script>
+  // Target: 4 ottobre 2026, ore 08:00 (ora locale) — partenza verso Peniche
+  var target = new Date(2026, 9, 4, 8, 0, 0).getTime(); // mese 9 = ottobre
+
+  function pad(n) { return n < 10 ? "0" + n : "" + n; }
+
+  function tick() {
+    var now = new Date().getTime();
+    var diff = target - now;
+
+    if (diff <= 0) {
+      document.getElementById("countdown").style.display = "none";
+      document.getElementById("arrived").style.display = "block";
+      document.querySelector(".subtitle").textContent = "🌊 Buone onde a tutti!";
+      return;
+    }
+
+    var d = Math.floor(diff / 86400000);
+    var h = Math.floor((diff % 86400000) / 3600000);
+    var m = Math.floor((diff % 3600000) / 60000);
+    var s = Math.floor((diff % 60000) / 1000);
+
+    document.getElementById("days").textContent = d;
+    document.getElementById("hours").textContent = pad(h);
+    document.getElementById("minutes").textContent = pad(m);
+    document.getElementById("seconds").textContent = pad(s);
+  }
+
+  tick();
+  setInterval(tick, 1000);
+</script>
+</body>
+</html>

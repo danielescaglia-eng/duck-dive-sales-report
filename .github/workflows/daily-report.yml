@@ -1,0 +1,39 @@
+name: Daily Sales Report
+
+# Rigenera il report KPI dal Google Sheet "CRM Duck Dive" e pubblica su GitHub Pages.
+# Sostituisce il vecchio cron di OpenClaw/Eva (che si bloccava sul VPS).
+on:
+  schedule:
+    - cron: '30 5 * * *'   # 05:30 UTC = 07:30 CEST, ogni giorno
+  workflow_dispatch:        # esecuzione manuale dal tab Actions
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-sales-report
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Genera report dal Google Sheet
+        run: node daily-kpi-report.js --output-dir reports
+      - name: Pubblica come index.html (root, servito da Pages)
+        run: cp reports/latest.html index.html
+      - name: Commit & push se cambiato
+        run: |
+          git config user.name "duck-dive-bot"
+          git config user.email "bot@duckdive.surf"
+          git add reports index.html
+          if git diff --cached --quiet; then
+            echo "Nessuna modifica oggi."
+          else
+            git commit -m "Daily auto-update $(date -u +%F)"
+            git push
+          fi

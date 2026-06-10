@@ -1,39 +1,56 @@
 name: Daily Sales Report
 
-# Rigenera il report KPI dal Google Sheet "CRM Duck Dive" e pubblica su GitHub Pages.
-# Sostituisce il vecchio cron di OpenClaw/Eva (che si bloccava sul VPS).
+# Rigenera il report KPI dal Google Sheet "CRM Duck Dive" e lo pubblica su
+# GitHub Pages via Actions (deploy nativo, niente 401 dei commit-bot sul legacy).
+# Sostituisce il vecchio cron di OpenClaw/Eva sul VPS.
 on:
   schedule:
     - cron: '30 5 * * *'   # 05:30 UTC = 07:30 CEST, ogni giorno
   workflow_dispatch:        # esecuzione manuale dal tab Actions
 
 permissions:
-  contents: write
+  contents: write           # per il commit di archivio
+  pages: write              # per il deploy Pages
+  id-token: write           # per l'autenticazione OIDC del deploy
 
 concurrency:
-  group: daily-sales-report
+  group: pages
   cancel-in-progress: false
 
 jobs:
-  build:
+  build-deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+
       - name: Genera report dal Google Sheet
         run: node daily-kpi-report.js --output-dir reports
-      - name: Pubblica come index.html (root, servito da Pages)
+
+      - name: Pubblica come index.html (root)
         run: cp reports/latest.html index.html
-      - name: Commit & push se cambiato
+
+      - name: Commit archivio (best-effort, non blocca il deploy)
         run: |
           git config user.name "duck-dive-bot"
           git config user.email "bot@duckdive.surf"
           git add reports index.html
-          if git diff --cached --quiet; then
-            echo "Nessuna modifica oggi."
-          else
-            git commit -m "Daily auto-update $(date -u +%F)"
-            git push
-          fi
+          git commit -m "Daily auto-update $(date -u +%F)" || echo "Nessuna modifica oggi."
+          git push || echo "Push saltato."
+
+      - name: Configura Pages
+        uses: actions/configure-pages@v5
+
+      - name: Carica artifact del sito
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy su GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

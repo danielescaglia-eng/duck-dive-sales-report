@@ -1,7 +1,7 @@
 {
-  "generated": "2026-06-19T09:57:01.935Z",
-  "subject": "[Duck Dive] Sales Report S25 — 19/06/2026",
-  "reportFile": "reports/daily-kpi-2026-06-19.html",
+  "generated": "2026-06-20T08:30:19.490Z",
+  "subject": "[Duck Dive] Sales Report S25 — 20/06/2026",
+  "reportFile": "reports/daily-kpi-2026-06-20.html",
   "latestFile": "reports/latest.html",
   "recipients": [],
   "focusMonth": "giu-26",
@@ -18,7 +18,7 @@
       "vN": 16,
       "vE": 64,
       "fN": 264.15,
-      "fR": 2485.99
+      "fR": 2860.99
     },
     {
       "name": "Nicolò Ghiorzi",

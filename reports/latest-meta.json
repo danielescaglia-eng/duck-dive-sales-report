@@ -1,7 +1,7 @@
 {
-  "generated": "2026-06-20T08:30:19.490Z",
-  "subject": "[Duck Dive] Sales Report S25 — 20/06/2026",
-  "reportFile": "reports/daily-kpi-2026-06-20.html",
+  "generated": "2026-06-21T09:06:21.589Z",
+  "subject": "[Duck Dive] Sales Report S25 — 21/06/2026",
+  "reportFile": "reports/daily-kpi-2026-06-21.html",
   "latestFile": "reports/latest.html",
   "recipients": [],
   "focusMonth": "giu-26",
@@ -9,14 +9,14 @@
     {
       "name": "Beppe",
       "vN": 3,
-      "vE": 51,
+      "vE": 56,
       "fN": 215,
-      "fR": 6764.51
+      "fR": 10622.47
     },
     {
       "name": "Dimitri Gennuso",
-      "vN": 16,
-      "vE": 64,
+      "vN": 18,
+      "vE": 74,
       "fN": 264.15,
       "fR": 2860.99
     },

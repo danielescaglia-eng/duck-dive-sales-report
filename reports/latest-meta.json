@@ -1,7 +1,7 @@
 {
-  "generated": "2026-06-28T08:30:55.672Z",
-  "subject": "[Duck Dive] Sales Report S26 — 28/06/2026",
-  "reportFile": "reports/daily-kpi-2026-06-28.html",
+  "generated": "2026-06-29T10:03:08.368Z",
+  "subject": "[Duck Dive] Sales Report S27 — 29/06/2026",
+  "reportFile": "reports/daily-kpi-2026-06-29.html",
   "latestFile": "reports/latest.html",
   "recipients": [],
   "focusMonth": "giu-26",
@@ -11,12 +11,12 @@
       "vN": 3,
       "vE": 69,
       "fN": 215,
-      "fR": 13066.55
+      "fR": 13519.15
     },
     {
       "name": "Dimitri Gennuso",
-      "vN": 24,
-      "vE": 84,
+      "vN": 26,
+      "vE": 95,
       "fN": 303.15,
       "fR": 5381.2
     },
@@ -25,7 +25,7 @@
       "vN": 0,
       "vE": 0,
       "fN": 1178.65,
-      "fR": 57.6
+      "fR": 287.28
     }
   ]
 }

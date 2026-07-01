@@ -1,7 +1,7 @@
 {
-  "generated": "2026-06-30T08:40:37.371Z",
-  "subject": "[Duck Dive] Sales Report S27 — 30/06/2026",
-  "reportFile": "reports/daily-kpi-2026-06-30.html",
+  "generated": "2026-07-01T08:57:36.511Z",
+  "subject": "[Duck Dive] Sales Report S27 — 01/07/2026",
+  "reportFile": "reports/daily-kpi-2026-07-01.html",
   "latestFile": "reports/latest.html",
   "recipients": [],
   "focusMonth": "giu-26",
@@ -11,14 +11,14 @@
       "vN": 3,
       "vE": 69,
       "fN": 215,
-      "fR": 13629.15
+      "fR": 15241.75
     },
     {
       "name": "Dimitri Gennuso",
-      "vN": 26,
-      "vE": 95,
+      "vN": 30,
+      "vE": 103,
       "fN": 303.15,
-      "fR": 6958.36
+      "fR": 7037.56
     },
     {
       "name": "Nicolò Ghiorzi",

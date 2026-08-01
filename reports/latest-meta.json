@@ -1,7 +1,7 @@
 {
-  "generated": "2026-07-31T08:13:24.684Z",
-  "subject": "[Duck Dive] Sales Report S31 — 31/07/2026",
-  "reportFile": "reports/daily-kpi-2026-07-31.html",
+  "generated": "2026-08-01T07:39:46.743Z",
+  "subject": "[Duck Dive] Sales Report S31 — 01/08/2026",
+  "reportFile": "reports/daily-kpi-2026-08-01.html",
   "latestFile": "reports/latest.html",
   "recipients": [],
   "focusMonth": "lug-26",
@@ -18,7 +18,7 @@
       "vN": 32,
       "vE": 100,
       "fN": 223.2,
-      "fR": 4748.77
+      "fR": 4880.77
     },
     {
       "name": "Duck Dive Pub",

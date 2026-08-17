@@ -1,7 +1,7 @@
 {
-  "generated": "2026-08-16T05:50:40.287Z",
-  "subject": "[Duck Dive] Sales Report S33 — 16/08/2026",
-  "reportFile": "reports/daily-kpi-2026-08-16.html",
+  "generated": "2026-08-17T05:56:53.953Z",
+  "subject": "[Duck Dive] Sales Report S34 — 17/08/2026",
+  "reportFile": "reports/daily-kpi-2026-08-17.html",
   "latestFile": "reports/latest.html",
   "recipients": [],
   "focusMonth": "lug-26",
@@ -11,7 +11,7 @@
       "vN": 14,
       "vE": 82,
       "fN": 333.95,
-      "fR": 10675
+      "fR": 10593.55
     },
     {
       "name": "Dimitri Gennuso",
